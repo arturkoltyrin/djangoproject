@@ -3,11 +3,11 @@
     "model": "catalog.product",
     "pk": 1,
     "fields": {
-        "name": "апельсин",
-        "description": "оранжевый",
+        "name": "Молоко",
+        "description": "молочный продукт",
         "image": "",
         "category": null,
-        "price": null,
+        "purchase_price": null,
         "created_at": null,
         "updated_at": "2024-10-30T15:52:44.418Z"
     }
@@ -16,11 +16,11 @@
     "model": "catalog.product",
     "pk": 2,
     "fields": {
-        "name": "яблоко",
-        "description": "зеленое",
+        "name": "Стейк",
+        "description": "приготовлен из говядины",
         "image": "",
         "category": 1,
-        "price": null,
+        "purchase_price": null,
         "created_at": null,
         "updated_at": "2024-10-30T15:59:07.687Z"
     }
@@ -29,39 +29,13 @@
     "model": "catalog.product",
     "pk": 3,
     "fields": {
-        "name": "яблоко",
-        "description": "красное",
+        "name": "Апельсиновый",
+        "description": "апельсиновый сок",
         "image": "",
         "category": 1,
-        "price": null,
+        "purchase_price": null,
         "created_at": null,
         "updated_at": "2024-10-30T15:59:53.438Z"
-    }
-},
-{
-    "model": "catalog.product",
-    "pk": 4,
-    "fields": {
-        "name": "смартфон",
-        "description": "Apple iPhone 16",
-        "image": "",
-        "category": 2,
-        "price": null,
-        "created_at": null,
-        "updated_at": "2024-10-30T16:03:22.519Z"
-    }
-},
-{
-    "model": "catalog.product",
-    "pk": 5,
-    "fields": {
-        "name": "арбуз",
-        "description": "большая ягода",
-        "image": "",
-        "category": 3,
-        "price": null,
-        "created_at": null,
-        "updated_at": "2024-10-30T16:28:37.096Z"
     }
 }
 ]
