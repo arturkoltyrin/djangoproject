@@ -11,12 +11,12 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(
-        max_length=100,
+        max_length=200,
         verbose_name="Наименование категории",
         help_text="Введите наименование категории",
     )
     description = models.CharField(
-        max_length=100,
+        max_length=200,
         verbose_name="Описание категории",
         help_text="Введите описание категории",
     )
@@ -32,15 +32,15 @@ class Category(models.Model):
 
 class Product(models.Model):
     name = models.CharField(
-        max_length=100,
+        max_length=200,
         verbose_name="Наименование",
         help_text="Введите наименование продукта",
     )
     description = models.CharField(
-        max_length=100, verbose_name="Описание", help_text="Введите описание продукта"
+        max_length=200, verbose_name="Описание", help_text="Введите описание продукта"
     )
     photo = models.ImageField(
-        upload_to="catalog/photo",
+        upload_to="photos",
         blank=True,
         null=True,
         verbose_name="Фото",
