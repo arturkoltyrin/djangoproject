@@ -10,6 +10,7 @@ class HomeView(ListView):
     template_name = 'base.html'
     context_object_name = 'products'
 
+
 class ContactsView(View):
     def get(self, request):
         return render(request, 'contacts.html')
@@ -18,10 +19,12 @@ class ContactsView(View):
         name = request.POST.get('name')
         return HttpResponse(f"Спасибо, {name}! Ваше сообщение получено.")
 
+
 class ProductListView(ListView):
     model = Product
     template_name = 'product_list.html'
     context_object_name = 'products'
+
 
 class ProductDetailView(DetailView):
     model = Product
