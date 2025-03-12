@@ -12,8 +12,8 @@
           <div class="card shadow-sm">
             <img src="{{ prod.photo }}" class="card-img-top" alt="{{ prod.name }}">
             <div class="card-body">
-              <p class="card-text">{{ prod.name }: { prod.purchase_price }}</p>
-              <p class="card-text">{{% prod.description| truncatechars:100 %}}</p>
+              <p class="card-text">{{ prod.name }}: {{ prod.purchase_price }}</p>
+              <p class="card-text">{{ prod.description| truncatechars:100 }}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                     <a class="btn btn-primary" href="{% url 'product:product_detail' prod.pk%}">О товаре</a>

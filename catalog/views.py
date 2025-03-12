@@ -7,13 +7,13 @@ from catalog.models import Product
 
 class HomeView(ListView):
     model = Product
-    template_name = 'base.html'
+    template_name = 'catalog/base.html'
     context_object_name = 'products'
 
 
 class ContactsView(View):
     def get(self, request):
-        return render(request, 'contacts.html')
+        return render(request, 'catalog/contacts.html')
 
     def post(self, request):
         name = request.POST.get('name')
@@ -22,11 +22,11 @@ class ContactsView(View):
 
 class ProductListView(ListView):
     model = Product
-    template_name = 'product_list.html'
+    template_name = 'catalog/product_list.html'
     context_object_name = 'products'
 
 
 class ProductDetailView(DetailView):
     model = Product
-    template_name = 'product_detail.html'
+    template_name = 'catalog/product_detail.html'
     context_object_name = 'product'
