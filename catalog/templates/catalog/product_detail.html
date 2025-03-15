@@ -1,6 +1,7 @@
 {% extends 'catalog/home.html'%}
-{% include 'catalog/menu.html'%}
-{% load my_tags_blog %}
+{% include 'catalog/inc_menu.html'%}
+{% include 'catalog/footer.html'%}
+{% load my_tags %}
 {% block content %}
 <div class="album py-5 bg-body-tertiary">
     <div class="container">
@@ -25,4 +26,3 @@
     </div>
   </div>
 {% endblock %}
-{% include 'footer_menu.html'%}

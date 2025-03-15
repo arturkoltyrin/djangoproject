@@ -1,7 +1,8 @@
 {% extends 'catalog/home.html'%}
 {% include 'catalog/menu.html'%}
+
 {% block content %}
-{% load my_tags_blog %}
+{% load my_tags %}
 <div class="container">
     <div class="row text-center">
         {% for product in products %}
