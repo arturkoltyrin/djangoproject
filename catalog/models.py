@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 # import os
 # os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 # import django
@@ -72,10 +73,20 @@ class Product(models.Model):
         help_text="Укажите дату последнего изменения",
     )
 
+    is_available = models.BooleanField(default=False, verbose_name="Доступность в каталоге")
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name="Владелец",
+        related_name="products",
+        null=True,)
+
+
     class Meta:
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
-        ordering = ["name", "purchase_price", "created_at"]
+        permissions = [("can_unpublish_product", "Can unpublish product"),
+            ("remove_any_product", "Remove any product"),]
 
 
     def __str__(self):
