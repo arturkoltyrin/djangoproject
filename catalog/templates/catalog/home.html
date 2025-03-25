@@ -17,6 +17,7 @@
     <h1></h1>
     {% if user.is_authenticated %}
         <p>Добро пожаловать пользователь!</p>
+        <a href="{% url 'catalog:product_create' %}" class="btn btn-primary">Создать продукт</a>
     {% else %}
         <p>Добро пожаловать гость!</p>
     {% endif %}

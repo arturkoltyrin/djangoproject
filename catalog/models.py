@@ -59,16 +59,15 @@ class Product(models.Model):
     purchase_price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
+        verbose_name="Цена продукта"
     )
     created_at = models.DateField(
-        blank=True,
-        null=True,
+        auto_now_add=True,
         verbose_name="Дата создания",
         help_text="Укажите дату создания",
     )
     updated_at = models.DateField(
-        blank=True,
-        null=True,
+        auto_now=True,
         verbose_name="Дата последнего изменения",
         help_text="Укажите дату последнего изменения",
     )
@@ -85,7 +84,10 @@ class Product(models.Model):
     class Meta:
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
-        permissions = [("can_unpublish_product", "Can unpublish product"),]
+        permissions = [
+            ("unpublish", "Can unpublish product"),
+            ("delete", "Can delete product"),
+            ("view", "Can view product"),]
 
 
     def __str__(self):
