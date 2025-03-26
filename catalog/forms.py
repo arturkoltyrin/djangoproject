@@ -8,7 +8,7 @@ forbidden = ['казино', 'криптовалюта', 'крипта', 'бир
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        exclude = ['created_at', 'owner', 'updated_at']
+        exclude = ['created_at', 'owner', 'updated_at', 'is_available']
 
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
@@ -53,7 +53,7 @@ class ProductForm(forms.ModelForm):
 class ProductModeratorForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ["is_available"]
+        fields = ['title', 'description', 'photo', 'is_available']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
