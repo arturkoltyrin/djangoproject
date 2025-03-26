@@ -73,6 +73,8 @@ class Product(models.Model):
     )
 
     is_available = models.BooleanField(default=False, verbose_name="Доступность в каталоге")
+    is_moderated = models.BooleanField(default=False, verbose_name="Модерация")
+
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,

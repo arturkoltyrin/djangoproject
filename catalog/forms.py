@@ -8,7 +8,7 @@ forbidden = ['казино', 'криптовалюта', 'крипта', 'бир
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        exclude = ['created_at', 'updated_at']
+        exclude = ['created_at', 'owner', 'updated_at']
 
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
@@ -20,7 +20,7 @@ class ProductForm(forms.ModelForm):
         self.fields['photo'].widget.attrs.update({'class': 'form-control'})
         self.fields['category'].widget.attrs.update({'class': 'form-control'})
         self.fields['purchase_price'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Введите цену'})
-        self.fields['created_at'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Введите дату'})
+
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
