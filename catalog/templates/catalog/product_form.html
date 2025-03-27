@@ -6,9 +6,9 @@
 <div class="album py-5 bg-body-tertiary">
     <div class="container mt-5">
         <h1 class="mb-4">Форма продукта</h1>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.non_field_errors }}
+
             {{ form.as_p }}
             <button type="submit" class="btn btn-primary">Сохранить</button>
                 <a class="btn btn-primary" href="{% url 'catalog:home' %}">Назад</a>

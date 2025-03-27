@@ -39,3 +39,8 @@ class User(AbstractUser):
 
     def __str__(self) -> str:
         return self.email
+
+    @property
+    def is_moderator(self):
+        """Проверка, что пользователь принадлежит к группе 'Moderators'."""
+        return self.groups.filter(name='Moderators').exists()

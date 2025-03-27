@@ -22,7 +22,7 @@
         <p class="lead">Skystore - </p>
         <h1></h1>
         {% if user.is_authenticated %}
-            <p>Добро пожаловать, {{ user.username }}!</p>
+            <p>Добро пожаловать, {{ user.first_name }}!</p>
 
         {% else %}
             <p>Добро пожаловать, гость!</p>

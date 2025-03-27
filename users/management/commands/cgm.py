@@ -14,7 +14,7 @@ class Command(BaseCommand):
         moder_group.permissions.add(add_permission, delete_permission, view_permission, can_unpublish_product)
 
         user = User.objects.create(email='moderator_products@test.ru')
-        user.set_password('1111')
+        user.set_password('Za11111111')
         user.is_active = True
         user.is_staff = False
         user.is_superuser = False

@@ -1,4 +1,4 @@
-{% extends 'catalog/home.html'%}
+{% extends 'catalog/home.html' %}
 
 {% block content %}
 <div class="album py-5 bg-body-tertiary">
@@ -8,7 +8,7 @@
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
-                <a class="btn btn-primary" href="{% url 'catalog:home' %}">Назад</a>
+            <a class="btn btn-primary" href="{% url 'catalog:home' %}">Назад</a>
         </form>
     </div>
     <script src="/static/js/bootstrap.bundle.min.js"></script>
