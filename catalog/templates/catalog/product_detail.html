@@ -18,6 +18,16 @@
               <p class="card-text">{{ product.category }}</p>
               <p class="card-text">{{ product.description }}</p>
               <div class="d-flex justify-content-between align-items-center">
+                <!-- Кнопки управления продуктом -->
+                {% if user.is_authenticated %}
+                    {% if user == product.owner or user.is_staff %}
+                        <!-- Только владелец или модератор могут редактировать продукт -->
+                        <a class="btn btn-warning" href="{% url 'catalog:product_update' product.pk %}">Редактировать</a>
+
+                        <!-- Только владелец или модератор могут удалять продукт -->
+                        <a class="btn btn-danger" href="{% url 'catalog:product_delete' product.pk %}">Удалить</a>
+                    {% endif %}
+                {% endif %}
                 <div class="btn-group">
                   <a class="btn btn-primary" href="{% url 'catalog:home' %}">Назад</a>
                 </div>
