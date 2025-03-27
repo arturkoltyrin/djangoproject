@@ -86,10 +86,7 @@ class Product(models.Model):
     class Meta:
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
-        permissions = [
-            ("unpublish", "Can unpublish product"),
-            ("delete", "Can delete product"),
-            ("view", "Can view product"),]
+        permissions = [("unpublish", "Can unpublish product"),]
 
 
     def __str__(self):

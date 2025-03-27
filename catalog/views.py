@@ -15,6 +15,13 @@ class HomeView(ListView):
     template_name = 'catalog/base.html'
     context_object_name = 'products'
 
+    def get_queryset(self):
+        if self.request.user.is_authenticated and self.request.user.is_staff:  # Проверяем, является ли пользователь модератором
+            queryset = Product.objects.all()  # Модераторам показываем все продукты
+        else:
+            queryset = Product.objects.filter(is_available=True)  # Обычным пользователям показываем только доступные продукты
+        return queryset
+
 
 def contacts(request):
     if request.method == 'POST':
@@ -38,8 +45,14 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
     template_name = 'catalog/product_detail.html'
     context_object_name = 'product'
 
-    def get_queryset(self):
-        return Product.objects.filter(is_available=True)
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset=queryset)
+        if not (self.request.user.is_authenticated and self.request.user.is_staff):
+            # Если пользователь не модератор, проверяем доступность продукта
+            if not obj.is_available:
+                raise PermissionDenied
+
+        return obj
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
