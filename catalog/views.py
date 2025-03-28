@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
+from django.urls import reverse
 
 
 class HomeView(ListView):
@@ -86,27 +87,22 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
 
 class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Product
-    form_class = ProductForm
     template_name = 'catalog/product_form.html'
-    success_url = reverse_lazy("catalog:home")
 
-    def form_valid(self, form):
-        return super().form_valid(form)
+    def get_success_url(self):
+        return reverse('catalog:product_detail', kwargs={'pk': self.object.id})
 
     def test_func(self):
         product = self.get_object()
         is_owner = self.request.user == product.owner
-        has_unpublish_perms = self.request.user.has_perm('catalog.can_unpublish_product')
+        has_unpublish_perms = self.request.user.has_perm('catalog.unpublish')
         return is_owner or has_unpublish_perms
-
-    def handle_no_permission(self):
-        raise PermissionDenied
 
     def get_form_class(self):
         product = self.get_object()
         if self.request.user.is_superuser:
             return ProductForm
-        if self.request.user.has_perm("catalog.can_unpublish_product"):
+        if self.request.user.is_moderator:
             return ProductModeratorForm
         return ProductForm
 

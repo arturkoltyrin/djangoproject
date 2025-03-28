@@ -40,20 +40,11 @@ class ProductForm(forms.ModelForm):
             raise ValidationError("Неверная цена")
         return price
 
-    def clean_photo(self):
-        image = self.cleaned_data.get('photo')
-        if image:
-            if image.size > 5 * 1024 * 1024:
-                raise ValidationError("Файл больше 5МБ")
-            if not (image.name.endswith('.jpg') or image.name.endswith('.jpeg') or image.name.endswith('.png')):
-                raise ValidationError("Файл не допустимого формата")
-        return image
-
 
 class ProductModeratorForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['is_available']
+        fields = ['description', 'photo', 'category', 'purchase_price', 'is_available']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
