@@ -16,6 +16,11 @@ class RegisterView(CreateView):
     def form_valid(self, form):
         response = super().form_valid(form)
 
+        # Сохранение имени пользователя
+        user = form.save(commit=False)
+        user.first_name = form.cleaned_data.get('first_name')
+        user.save()
+
         send_mail(
             subject='Рады вас видеть!',
             message='Спасибо за регистрацию на сайте "SkyStore"',

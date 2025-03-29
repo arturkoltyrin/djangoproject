@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 # import os
 # os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 # import django
@@ -40,7 +41,7 @@ class Product(models.Model):
         max_length=200, verbose_name="Описание", help_text="Введите описание продукта"
     )
     photo = models.ImageField(
-        upload_to="photos",
+        upload_to="photos/",
         blank=True,
         null=True,
         verbose_name="Фото",
@@ -58,24 +59,34 @@ class Product(models.Model):
     purchase_price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
+        verbose_name="Цена продукта"
     )
     created_at = models.DateField(
-        blank=True,
-        null=True,
+        auto_now_add=True,
         verbose_name="Дата создания",
         help_text="Укажите дату создания",
     )
     updated_at = models.DateField(
-        blank=True,
-        null=True,
+        auto_now=True,
         verbose_name="Дата последнего изменения",
         help_text="Укажите дату последнего изменения",
     )
 
+    is_available = models.BooleanField(default=False, verbose_name="Доступность в каталоге")
+
+
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name="Владелец",
+        related_name="products",
+        null=True,)
+
+
     class Meta:
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
-        ordering = ["name", "purchase_price", "created_at"]
+        permissions = [("unpublish", "Can unpublish product"),]
 
 
     def __str__(self):

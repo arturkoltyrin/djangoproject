@@ -8,7 +8,7 @@ forbidden = ['казино', 'криптовалюта', 'крипта', 'бир
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'description', 'photo', 'category', 'purchase_price', 'created_at']
+        exclude = ['created_at', 'owner', 'updated_at', 'is_available']
 
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
@@ -20,7 +20,7 @@ class ProductForm(forms.ModelForm):
         self.fields['photo'].widget.attrs.update({'class': 'form-control'})
         self.fields['category'].widget.attrs.update({'class': 'form-control'})
         self.fields['purchase_price'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Введите цену'})
-        self.fields['created_at'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Введите дату'})
+
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
@@ -40,14 +40,16 @@ class ProductForm(forms.ModelForm):
             raise ValidationError("Неверная цена")
         return price
 
-    def clean_photo(self):
-        image = self.cleaned_data.get('photo')
-        if image:
-            if image.size > 5 * 1024 * 1024:
-                raise ValidationError("Файл больше 5МБ")
-            if not (image.name.endswith('.jpg') or image.name.endswith('.jpeg') or image.name.endswith('.png')):
-                raise ValidationError("Файл не допустимого формата")
-        return image
+
+class ProductModeratorForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['description', 'photo', 'category', 'purchase_price', 'is_available']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["is_available"].widget.attrs.update({"class": "form-check"})
+
 
 class CategoryForm(forms.ModelForm):
     class Meta:
