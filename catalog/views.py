@@ -2,15 +2,20 @@ from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render
 from django.http import HttpResponse
-from catalog.models import Product
+from catalog.models import Product, Category
 from catalog.forms import ProductForm, ProductModeratorForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.urls import reverse
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+from .services import get_products_by_category, CategoryService
 
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class HomeView(ListView):
     model = Product
     template_name = 'catalog/base.html'
@@ -18,10 +23,18 @@ class HomeView(ListView):
 
 
     def get_queryset(self):
-        qs = super().get_queryset()
-        if self.request.user.is_authenticated and self.request.user.is_moderator:
-            return qs
-        return qs.filter(is_available=True)
+        cache_key = 'all_available_products'
+        products = cache.get(cache_key)
+        if products is None:
+            qs = super().get_queryset()
+            if self.request.user.is_authenticated and self.request.user.is_moderator:
+                products = qs
+            else:
+                products = qs.filter(is_available=True)
+            cache.set(cache_key, products, 60 * 15)
+        return products
+
+
 
 
 def contacts(request):
@@ -41,16 +54,22 @@ class ContactsView(View):
         return HttpResponse(f"Спасибо, {name}! Ваше сообщение получено.")
 
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = 'catalog/product_detail.html'
     context_object_name = 'product'
 
     def get_queryset(self):
-        qs = super().get_queryset()
-        if self.request.user.is_authenticated and self.request.user.is_moderator:
-            return qs
-        return qs.filter(is_available=True)
+        queryset = cache.get('category_queryset')
+        if not queryset:
+            queryset = super().get_queryset()
+            if self.request.user.is_authenticated and self.request.user.is_moderator:
+                pass
+            else:
+                queryset = queryset.filter(is_available=True)
+            cache.set('category_queryset', queryset, 60 * 15)
+        return queryset
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
@@ -105,6 +124,23 @@ class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         if self.request.user.is_moderator:
             return ProductModeratorForm
         return ProductForm
+
+
+class CategoryProductDetailView(DetailView):
+    model = Category
+    template_name = 'catalog/base.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.kwargs.get('pk')
+        context['name'] = CategoryService.get_full_name(category_id)
+        context['products'] = Product.objects.filter(category_id=category_id)
+        return context
+
+
+class CategoryProductView(ListView):
+    model = Category
+    template_name = 'catalog/category_products.html'
 
 
 
